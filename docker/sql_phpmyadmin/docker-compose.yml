@@ -1,0 +1,25 @@
+version: '3'
+services:
+  sql:
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    volumes:
+      - ./mysqldata:/var/lib/postgresql/data
+    ports:
+      - "3306:3306"
+    image: "mysql"
+    environment:
+      - MYSQL_ROOT_PASSWORD=vpn123
+
+  phpmyadmin:
+    restart: always
+    image: "phpmyadmin/phpmyadmin"
+    ports:
+      - "8080:80"
+    environment:
+      - PMA_HOST=sql
+
+networks:
+  default:
+    external:
+      name: custom-dbnet
